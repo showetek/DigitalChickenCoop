@@ -1,5 +1,6 @@
 import sqlite3
-import datetime
+from datetime import datetime
+
 
 #from src.classes.dataset import dataSet
 class dataSet:
@@ -69,13 +70,21 @@ def auslesen(id):
 
 
 
-def insert():
+def insert(id, status):
+
+    now = datetime.now() #derzeitiges Datum und Uhrzeit
+    date = now.strftime("%Y-%m-%d")
+    time = now.strftime("%H-%M") 
 
     sqliteCon = sqlite3.connect('Datebase_python.db')
     cursor = sqliteCon.cursor()
 
-    query_insert_into = """INSERT INTO Protokoll (id, Zeit, Datum, Status) Values ({id},{z},{d},{s})""".format(id = 2,z= '1', d= '1',s= 1)
+    query_insert_into = """INSERT INTO Protokoll (id, Zeit, Datum, Status) Values ({i},'{z}','{d}',{s})""".format(i = id,z= time, d= date,s= status)
                 
     count = cursor.execute(query_insert_into)
     sqliteCon.commit()
     cursor.close
+
+
+
+
