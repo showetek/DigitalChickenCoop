@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 
 #from src.classes.dataset import dataSet
 class dataSet:
@@ -17,16 +18,36 @@ class dataSet:
         #hier muss die db abgerufen werden
         print()
 
+
+
+        
+
   
 def auslesen(id):
     
-
+#Erster Teil nach Datum sotieren
     sqliteCon = sqlite3.connect('Datebase_python.db')
     cursor = sqliteCon.cursor()
-    query_select_all = "SELECT * FROM Protokoll WHERE id = {i} ORDER BY Datum".format(i = id)
+    query_select_all = "SELECT * FROM Protokoll WHERE id = {i} ORDER BY Datum DESC".format(i = id)
+    cursor.execute(query_select_all)
+    tablerows = cursor.fetchone() 
+    #Hier fetchone um die neuste Zeile, wo dies gillt das auszulesen
+    
+    print("Number of all rows: ", len(tablerows))
+    print("All rows in the table mytable: ")
+      
+    print("Datum: ", tablerows[2])
+    datum = tablerows[2]
+    cursor.close()
+    sqliteCon.close()
+
+#Zweiter Teil zum Sortieren nach Datum
+    sqliteCon = sqlite3.connect('Datebase_python.db')
+    cursor = sqliteCon.cursor()
+    query_select_all = "SELECT * FROM Protokoll WHERE id = {i} AND Datum = '{d}' ORDER BY Zeit DESC".format(i = id, d= datum)
     cursor.execute(query_select_all)
     tablerows = cursor.fetchall() 
-    #Hier fetchone um eine Zeile, wo dies gillt das auszulesen
+   #Hier fetchall um alle Zeilen, wo dies gillt auszulesen
     
     print("Number of all rows: ", len(tablerows))
     print("All rows in the table mytable: ")
@@ -39,10 +60,14 @@ def auslesen(id):
         print("Status: ", row[3])
         print("------\n")
         
-        cursor.close()
-        sqliteCon.close()
+    cursor.close()
+    sqliteCon.close()
 
-        return current_ds
+    return current_ds
+
+
+
+
 
 def insert():
 
