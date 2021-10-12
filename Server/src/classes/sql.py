@@ -23,26 +23,26 @@ def auslesen(id):
 
     sqliteCon = sqlite3.connect('Datebase_python.db')
     cursor = sqliteCon.cursor()
-    query_select_all = "SELECT * FROM Protokoll WHERE id = {i}".format(i = id)
+    query_select_all = "SELECT * FROM Protokoll WHERE id = {i} ORDER BY Datum".format(i = id)
     cursor.execute(query_select_all)
-    tablerows = cursor.fetchone() 
+    tablerows = cursor.fetchall() 
     #Hier fetchone um eine Zeile, wo dies gillt das auszulesen
     
     print("Number of all rows: ", len(tablerows))
     print("All rows in the table mytable: ")
 
-    current_ds = dataSet(tablerows[0] , tablerows[1] , tablerows[2] , tablerows[3])
-
-    print("id: ", tablerows[0])
-    print("Zeit: ", tablerows[1]) 
-    print("Datum: ", tablerows[2])
-    print("Status: ", tablerows[3])
-    print("------\n")
+    for row in tablerows:
+        current_ds = dataSet(row[0] , row[1] , row[2] , row[3])
+        print("id: ", row[0])
+        print("Zeit: ", row[1]) 
+        print("Datum: ", row[2])
+        print("Status: ", row[3])
+        print("------\n")
         
-    cursor.close()
-    sqliteCon.close()
+        cursor.close()
+        sqliteCon.close()
 
-    return current_ds
+        return current_ds
 
 def insert():
 
