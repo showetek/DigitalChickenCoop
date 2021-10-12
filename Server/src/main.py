@@ -1,10 +1,10 @@
 #lib import
-from logging import error
-from flask import Flask, redirect, url_for, request, jsonify
+from flask import Flask, redirect, url_for, jsonify, abort, request
 from markupsafe import escape
 #class import
 from classes.dataset import dataSet
 from classes.chicken import chicken
+from classes.device import device
 
 #Create basic app
 app = Flask(__name__)
@@ -20,7 +20,16 @@ def rootIndex():
 def apiIndex():
     return 'OK', 200
 
-
+@app.route('/api/login', methods=['POST'])
+def login():
+    if request.method == 'POST':
+        device_1 = device(ip=request.form['ip'], id = 'test')
+        return jsonify({
+            "ip": device_1.ip,
+            "id": device_1.id,
+        }), 200
+    else:
+        abort(405)
 
 @app.route('/chicken/<int:c_number>')
 def show_chicken_info(c_number):
