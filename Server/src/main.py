@@ -5,7 +5,7 @@ from pprint import pprint
 
 from werkzeug.datastructures import Range
 #class import
-from classes.dataset import dataSet
+from classes.sqlConnect import dataSet
 from classes.chicken import chicken
 from classes.device import device
 
@@ -53,12 +53,11 @@ def show_chicken_info(c_number):
     return 'You choose chicken number: {0}'.format(escape(c_number))
 
 @app.route('/action/<int:id>')
-def createDataSet():
-    newDS = dataSet()
-    #hier entsteht was neues ;D
+def createDataSet(id: int):
+    newDS: dataSet = dataSet(id, '12.10.21', '10:30', True)
+    newDS.uploadDataSet()
 
-
-    return 'transmitted'
+    return 'transmitted' + str(id)
 
 """             Errorhandler             """
 
