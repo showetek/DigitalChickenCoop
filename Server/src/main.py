@@ -2,7 +2,7 @@
 from flask import Flask, redirect, url_for, jsonify, abort, request
 from markupsafe import escape
 #class import
-from classes.dataset import dataSet
+from classes.sqlConnect import dataSet
 from classes.chicken import chicken
 from classes.device import device
 
@@ -20,28 +20,18 @@ def rootIndex():
 def apiIndex():
     return 'OK', 200
 
-@app.route('/api/login', methods=['POST'])
-def login():
-    if request.method == 'POST':
-        device_1 = device(ip=request.form['ip'], id = 'test')
-        return jsonify({
-            "ip": device_1.ip,
-            "id": device_1.id,
-        }), 200
-    else:
-        abort(405)
+
 
 @app.route('/chicken/<int:c_number>')
 def show_chicken_info(c_number):
     return 'You choose chicken number: {0}'.format(escape(c_number))
 
 @app.route('/action/<int:id>')
-def createDataSet():
-    newDS = dataSet()
-    #hier entsteht was neues ;D
+def createDataSet(id: int):
+    newDS: dataSet = dataSet(id, '12.10.21', '10:30', True)
+    newDS.uploadDataSet()
 
-
-    return 'transmitted'
+    return 'transmitted' + str(id)
 
 """             Errorhandler             """
 

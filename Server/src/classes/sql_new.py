@@ -1,6 +1,6 @@
 import sqlite3
 
-from sql import auslesen, insert
+from sqlConnect import auslesen, insert
 
 try:
     sqliteCon = sqlite3.connect('Datebase_python.db')
