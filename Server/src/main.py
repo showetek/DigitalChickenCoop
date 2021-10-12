@@ -1,6 +1,9 @@
 #lib import
 from flask import Flask, redirect, url_for, jsonify, abort, request
 from markupsafe import escape
+from pprint import pprint
+
+from werkzeug.datastructures import Range
 #class import
 from classes.dataset import dataSet
 from classes.chicken import chicken
@@ -8,6 +11,9 @@ from classes.device import device
 
 #Create basic app
 app = Flask(__name__)
+
+#List of connected devices
+device_list = []
 
 """             ROUTING             """
 
@@ -23,6 +29,17 @@ def apiIndex():
 @app.route('/api/login', methods=['POST'])
 def login():
     if request.method == 'POST':
+        if len(device_list) == 0:
+            device_list.append(device(ip=request.form['ip'], id = request.form['id']))
+            print('Added first')
+        else:
+            for device_obj in device_list:
+                if (device_obj.ip != request.form['ip']):
+                    device_list.append(device(ip=request.form['ip'], id = 'test'))
+                    print('Added')
+                else:
+                    print('not Added')
+        #pprint(device_list[0].ip)
         device_1 = device(ip=request.form['ip'], id = 'test')
         return jsonify({
             "ip": device_1.ip,
