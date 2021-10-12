@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for
 from markupsafe import escape
-from classes.com import Com
+from classes.dataset import dataSet
 #import Com
 from classes.chicken import chicken
 
@@ -21,14 +21,12 @@ def show_chicken_info(c_number):
     print('TEST')
     return 'You choose chicken number: {0}'.format(escape(c_number))
 
-@app.route('/communication')
-def submitData():
-    #testcode - hat eigentlich kein sinn
-    newCom = Com()
-    newCom.name = "11.10.2021-11:49"
-    newCom.test = 3
-    newCom.chickenID = [1]
-    newCom.uploadCom()
+@app.route('/action/<int:id>')
+def createDataSet():
+    newDS = dataSet()
+    #hier entsteht was neues ;D
+
+
     return 'transmitted'
 
 
