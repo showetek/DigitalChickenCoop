@@ -5,7 +5,7 @@ from sql import auslesen, insert
 try:
     sqliteCon = sqlite3.connect('Datebase_python.db')
     query_create_table = 	'''CREATE TABLE Protokoll (
-                                id INTEGER PRIMARY KEY,
+                                id INTEGER NOT NULL,
                                 Zeit TEXT NOT NULL,
 				Datum TEXT NOT NULL,
                                 Status BOOLEAN);'''
@@ -24,5 +24,5 @@ finally:
     if (sqliteCon):
         sqliteCon.close()
         print("database connection is closed")
-    auslesen(2)
+    auslesen(1)
     

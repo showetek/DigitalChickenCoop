@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 
 #from src.classes.dataset import dataSet
 class dataSet:
@@ -17,32 +18,56 @@ class dataSet:
         #hier muss die db abgerufen werden
         print()
 
+
+
+        
+
   
 def auslesen(id):
     
-
+#Erster Teil nach Datum sotieren
     sqliteCon = sqlite3.connect('Datebase_python.db')
     cursor = sqliteCon.cursor()
-    query_select_all = "SELECT * FROM Protokoll WHERE id = {i}".format(i = id)
+    query_select_all = "SELECT * FROM Protokoll WHERE id = {i} ORDER BY Datum DESC".format(i = id)
     cursor.execute(query_select_all)
     tablerows = cursor.fetchone() 
-    #Hier fetchone um eine Zeile, wo dies gillt das auszulesen
+    #Hier fetchone um die neuste Zeile, wo dies gillt das auszulesen
+    
+    print("Number of all rows: ", len(tablerows))
+    print("All rows in the table mytable: ")
+      
+    print("Datum: ", tablerows[2])
+    datum = tablerows[2]
+    cursor.close()
+    sqliteCon.close()
+
+#Zweiter Teil zum Sortieren nach Datum
+    sqliteCon = sqlite3.connect('Datebase_python.db')
+    cursor = sqliteCon.cursor()
+    query_select_all = "SELECT * FROM Protokoll WHERE id = {i} AND Datum = '{d}' ORDER BY Zeit DESC".format(i = id, d= datum)
+    cursor.execute(query_select_all)
+    tablerows = cursor.fetchall() 
+   #Hier fetchall um alle Zeilen, wo dies gillt auszulesen
     
     print("Number of all rows: ", len(tablerows))
     print("All rows in the table mytable: ")
 
-    current_ds = dataSet(tablerows[0] , tablerows[1] , tablerows[2] , tablerows[3])
-
-    print("id: ", tablerows[0])
-    print("Zeit: ", tablerows[1]) 
-    print("Datum: ", tablerows[2])
-    print("Status: ", tablerows[3])
-    print("------\n")
+    for row in tablerows:
+        current_ds = dataSet(row[0] , row[1] , row[2] , row[3])
+        print("id: ", row[0])
+        print("Zeit: ", row[1]) 
+        print("Datum: ", row[2])
+        print("Status: ", row[3])
+        print("------\n")
         
     cursor.close()
     sqliteCon.close()
 
     return current_ds
+
+
+
+
 
 def insert():
 
