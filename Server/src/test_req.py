@@ -1,3 +1,7 @@
+#import hashlib
+#print(hashlib.md5(b"test").hexdigest())
+
+
 import requests
 from requests.models import Response
 
