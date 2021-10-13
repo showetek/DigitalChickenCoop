@@ -2,13 +2,10 @@
 from flask import Flask, redirect, url_for, jsonify, abort, request
 from markupsafe import escape
 from datetime import datetime
-from pprint import pprint
-
-from werkzeug.datastructures import Range
+from chicken import chicken as c
 #class import
 from classes.sqlConnect import dataSet
-from classes.chicken import chicken
-from classes.device import device, deviceManager
+from classes.device import device
 
 #Create basic app
 app = Flask(__name__)
@@ -49,11 +46,15 @@ def login():
     else:
         abort(405)
 
-@app.route('/chicken/<int:c_number>')
-def show_chicken_info(c_number):
-    return 'You choose chicken number: {0}'.format(escape(c_number))
+@app.route('/chickenStatus/<int:id>')
+def show_chicken_info(id: int):
+    chicken: c = c(id)
+    chicken.checkStatus()
 
-@app.route('/action/<int:id>/<string:arduino>')
+
+    return 'You choose chicken number: {0}'.format(escape(id))
+
+@app.route('/sensor/<int:id>/<string:arduino>')
 def createDataSet(id: int, arduino: str):
     newDS: dataSet = dataSet(id, datetime.now().strftime("%Y-%m-%d"), datetime.now().strftime("%H-%M"), 1, arduino)
     newDS.uploadDataSet()
