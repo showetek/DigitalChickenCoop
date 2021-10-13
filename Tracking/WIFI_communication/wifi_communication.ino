@@ -7,8 +7,8 @@
 
 //Define
 #ifndef STASSID
-#define STASSID "Chicken_Intranet"
-#define STAPSK  "1234567890"
+#define STASSID "MDG_Stream"
+#define STAPSK  "#Buermende21"
 #endif
 
 //Const Var
@@ -36,7 +36,7 @@ void post(String action, String chick_id, String arduino_id){
 //Setup
 void setup()
 {            
-    Serial.begin(9600);         //Serielle Verbindung mit Monitor
+  Serial.begin(9600);         //Serielle Verbindung mit Monitor 
   WiFi.begin(ssid, password); //WIFI Verbinden
   Serial.println("");
 
@@ -54,15 +54,10 @@ void setup()
   if (MDNS.begin("esp8266")) {
     Serial.println("MDNS responder started");
   }
-  
 }
 
 //Mainloop des Hauptprogrammes
 void loop()
-{
-  delay(5000);
-  
+{  
   //post("Test", "Test", "Test");
-  Serial.println("Test-66");
-  Serial.println("Test-67");
 }
