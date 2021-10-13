@@ -7,7 +7,7 @@ from werkzeug.datastructures import Range
 #class import
 from classes.sqlConnect import dataSet
 from classes.chicken import chicken
-from classes.device import device
+from classes.device import device, deviceManager
 
 #Create basic app
 app = Flask(__name__)
