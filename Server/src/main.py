@@ -95,7 +95,7 @@ def show_chicken_info(id: int):
 
 @app.route('/sensor/<int:id>/<string:arduino>')
 def createDataSet(id: int, arduino: str):
-    newDS: dataSet = dataSet(id, datetime.now().strftime("%Y-%m-%d"), datetime.now().strftime("%H-%M"), 1, arduino)
+    newDS: dataSet = dataSet(id, datetime.now().strftime("%Y-%m-%d"), datetime.now().strftime("%H-%M-%S"), 1, arduino)
     newDS.uploadDataSet()
 
     return 'transmitted'

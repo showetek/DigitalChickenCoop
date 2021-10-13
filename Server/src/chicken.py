@@ -9,7 +9,9 @@ class chicken():
     def checkStatus(self):
         db = sC()
         results = db.auslesen(self.chickenID)
-        print(str(results.count))
+        print('datensätze gefunden: ' + str(len(results)))
+
+
 
 
 
