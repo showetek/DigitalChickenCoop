@@ -38,9 +38,10 @@ def apiIndex():
     return jsonify({
         "status": "OK",
         "code": "200",
-        "message": "Hühnerstall-API",
+        "message": "DCC-API",
         "login": url_for('login'),
-        "sensor_endpoint": url_for('sensor'),
+        "chickenStatus_endpoint": url_for('show_chicken_info', id=1),
+        "sensor_endpoint": url_for('sensor', id=1, arduino="arduino"),
         "door_endpoint": url_for('door'),
         "food_endpoint": url_for('food')
     }), 200
@@ -94,7 +95,7 @@ def show_chicken_info(id: int):
 
 
 @app.route('/sensor/<int:id>/<string:arduino>')
-def createDataSet(id: int, arduino: str):
+def sensor(id: int, arduino: str):
     newDS: dataSet = dataSet(id, datetime.now().strftime("%Y-%m-%d"), datetime.now().strftime("%H-%M"), 1, arduino)
     newDS.uploadDataSet()
 
