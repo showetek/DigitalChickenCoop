@@ -2,9 +2,6 @@
 from flask import Flask, redirect, url_for, jsonify, abort, request
 from markupsafe import escape
 from datetime import datetime
-from pprint import pprint
-
-from werkzeug.datastructures import Range
 #class import
 from classes.sqlConnect import dataSet
 from classes.chicken import chicken
@@ -36,7 +33,29 @@ def rootIndex():
 
 @app.route('/api')
 def apiIndex():
-    return 'OK', 200
+    return jsonify({
+        "status": "OK",
+        "code": "200",
+        "message": "Hühnerstall-API",
+        "login": url_for('login'),
+        "sensor_endpoint": url_for('sensor'),
+        "door_endpoint": url_for('door'),
+        "food_endpoint": url_for('food')
+    }), 200
+
+@app.route('/api/door', methods=['POST'])
+def door():
+    if request.method == 'POST':
+        pass
+    else:
+        abort(405)
+
+@app.route('/api/food', methods=['POST'])
+def food():
+    if request.method == 'POST':
+        pass
+    else:
+        abort(405)
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -79,7 +98,6 @@ def ressource_not_found(error):
         "message": "Ressource not found",
     }), 404
 
-
 @app.errorhandler(405)
 def method_not_allowed(error):
     return jsonify({
@@ -91,4 +109,3 @@ def method_not_allowed(error):
 # ensure interpreter assigns __name__ variable
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-
