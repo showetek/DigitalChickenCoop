@@ -1,93 +1,68 @@
-/*
- WiFiEsp example: ConnectWPA
- 
- This example connects to an encrypted WiFi network using an ESP8266 module.
- Then it prints the  MAC address of the WiFi shield, the IP address obtained
- and other network details.
- For more details see: http://yaab-arduino.blogspot.com/p/wifiesp-example-connect.html
-*/
+//Lib
+#include <SoftwareSerial.h>
+#include <ESP8266WiFi.h>
+#include <WiFiClient.h>
+#include <ESP8266mDNS.h>
+#include <ESP8266HTTPClient.h>
 
-#include "WiFiEsp.h"
-
-// Emulate Serial1 on pins 6/7 if not present
-#ifndef HAVE_HWSERIAL1
-#include "SoftwareSerial.h"
-SoftwareSerial Serial1(6, 7); // RX, TX
+//Define
+#ifndef STASSID
+#define STASSID "Chicken_Intranet"
+#define STAPSK  "1234567890"
 #endif
 
-char ssid[] = "Chicken_Intranet";            // your network SSID (name)
-char pass[] = "1234567890";        // your network password
-int status = WL_IDLE_STATUS;     // the Wifi radio's status
+//Const Var
+const char* ssid     = STASSID;
+const char* password = STAPSK;
+const char* server_adresse = "http://192.168.1.27:5000";
 
-void setup()
-{
-  // initialize serial for debugging
-  Serial.begin(115200);
-  // initialize serial for ESP module
-  Serial1.begin(9600);
-  // initialize ESP module
-  WiFi.init(&Serial1);
+//Var
 
-  // check for the presence of the shield
-  if (WiFi.status() == WL_NO_SHIELD) {
-    Serial.println("WiFi shield not present");
-    // don't continue
-    while (true);
-  }
-
-  // attempt to connect to WiFi network
-  while ( status != WL_CONNECTED) {
-    Serial.print("Attempting to connect to WPA SSID: ");
-    Serial.println(ssid);
-    // Connect to WPA/WPA2 network
-    status = WiFi.begin(ssid, pass);
-  }
-
-  Serial.println("You're connected to the network");
+void post(String action, String chick_id, String arduino_id){
+    HTTPClient http;    //Declare object of class HTTPClient
+ 
+    //http.begin(server_adresse + "/" + action + "/" + chick_id + "/" + arduino_id);      //Specify request destination
+  /*  http.addHeader("Content-Type", "text/plain");  //Specify content-type header
+ 
+    int httpCode = http.POST("co2_in="+ key1 + ",tmp_in=" + key2 +",");   //Send the request
+    String payload = http.getString();                  //Get the response payload
+ 
+    Serial.println(httpCode);   //Print HTTP return code
+    Serial.println(payload);    //Print request response payload
+ */
+    http.end();  //Close connection
 }
 
+//Setup
+void setup()
+{            
+    Serial.begin(9600);         //Serielle Verbindung mit Monitor
+  WiFi.begin(ssid, password); //WIFI Verbinden
+  Serial.println("");
+
+  //Auf Verbindung warten
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.print("Connected to ");
+  Serial.println(ssid);
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  if (MDNS.begin("esp8266")) {
+    Serial.println("MDNS responder started");
+  }
+  
+}
+
+//Mainloop des Hauptprogrammes
 void loop()
 {
-  // print the network connection information every 10 seconds
-  Serial.println();
-  printCurrentNet();
-  printWifiData();
+  delay(5000);
   
-  delay(10000);
-}
-
-void printWifiData()
-{
-  // print your WiFi shield's IP address
-  IPAddress ip = WiFi.localIP();
-  Serial.print("IP Address: ");
-  Serial.println(ip);
-
-  // print your MAC address
-  byte mac[6];
-  WiFi.macAddress(mac);
-  char buf[20];
-  sprintf(buf, "%02X:%02X:%02X:%02X:%02X:%02X", mac[5], mac[4], mac[3], mac[2], mac[1], mac[0]);
-  Serial.print("MAC address: ");
-  Serial.println(buf);
-}
-
-void printCurrentNet()
-{
-  // print the SSID of the network you're attached to
-  Serial.print("SSID: ");
-  Serial.println(WiFi.SSID());
-
-  // print the MAC address of the router you're attached to
-  byte bssid[6];
-  WiFi.BSSID(bssid);
-  char buf[20];
-  sprintf(buf, "%02X:%02X:%02X:%02X:%02X:%02X", bssid[5], bssid[4], bssid[3], bssid[2], bssid[1], bssid[0]);
-  Serial.print("BSSID: ");
-  Serial.println(buf);
-
-  // print the received signal strength
-  long rssi = WiFi.RSSI();
-  Serial.print("Signal strength (RSSI): ");
-  Serial.println(rssi);
+  //post("Test", "Test", "Test");
+  Serial.println("Test-66");
+  Serial.println("Test-67");
 }
