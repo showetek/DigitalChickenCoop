@@ -7,19 +7,6 @@
  For more details see: http://yaab-arduino.blogspot.com/p/wifiesp-example-connect.html
 */
 
-/*
-12:14:47.294 -> [WiFiEsp] Initializing ESP module
-12:14:48.290 -> [WiFiEsp] >>> TIMEOUT >>>
-12:14:50.279 -> [WiFiEsp] >>> TIMEOUT >>>
-12:14:52.273 -> [WiFiEsp] >>> TIMEOUT >>>
-12:14:54.276 -> [WiFiEsp] >>> TIMEOUT >>>
-12:14:56.320 -> [WiFiEsp] >>> TIMEOUT >>>
-12:14:57.281 -> [WiFiEsp] Cannot initialize ESP module
-12:15:03.313 -> [WiFiEsp] >>> TIMEOUT >>>
-12:15:03.313 -> [WiFiEsp] No tag found
-12:15:03.313 -> WiFi shield not present
-*/
-
 #include "WiFiEsp.h"
 
 // Emulate Serial1 on pins 6/7 if not present
