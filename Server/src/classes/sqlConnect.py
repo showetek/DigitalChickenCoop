@@ -3,11 +3,12 @@ import datetime
 #from dataset import dataSet
 
 class dataSet:
-    def __init__(self, chickenID, date, time, status):
+    def __init__(self, chickenID, date, time, status, arduino):
         self.date = date
         self.time = time
         self.chickenID = chickenID
         self.status = status
+        self.arduino = arduino
 
 
     def uploadDataSet(self):
@@ -55,11 +56,12 @@ class sqlConnect:
         print("All rows in the table mytable: ")
 
         for row in tablerows:
-            current_ds = dataSet(row[0] , row[1] , row[2] , row[3])
+            current_ds = dataSet(row[0] , row[1] , row[2] , row[3], row[4])
             print("id: ", row[0])
             print("Zeit: ", row[1])
             print("Datum: ", row[2])
             print("Status: ", row[3])
+            print("Arduino: ", row[4])
             print("------\n")
         
         cursor.close()
@@ -76,8 +78,8 @@ class sqlConnect:
         sqliteCon = sqlite3.connect('Datebase_python.db')
         cursor = sqliteCon.cursor()
 
-        query_insert_into = """INSERT INTO Protokoll (id, Zeit, Datum, Status) Values ({id},{z},{d},{s})""".format(id = newDS.chickenID,z= newDS.time, d= newDS.date,s= newDS.status)
+        query_insert_into = """INSERT INTO Protokoll (id, Zeit, Datum, Status, arduino) Values ({id},'{z}','{d}',{s},'{ar}')""".format(id = newDS.chickenID,z= newDS.time, d= newDS.date,s= newDS.status, a= newDS.arduino)
                 
         count = cursor.execute(query_insert_into)
         sqliteCon.commit()
-        cursor.close
+        cursor.close 
