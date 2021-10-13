@@ -1,6 +1,7 @@
 #lib import
 from flask import Flask, redirect, url_for, jsonify, abort, request
 from markupsafe import escape
+from datetime import datetime
 from pprint import pprint
 
 from werkzeug.datastructures import Range
@@ -52,12 +53,12 @@ def login():
 def show_chicken_info(c_number):
     return 'You choose chicken number: {0}'.format(escape(c_number))
 
-@app.route('/action/<int:id>')
-def createDataSet(id: int):
-    newDS: dataSet = dataSet(id, '12.10.21', '10:30', True)
+@app.route('/action/<int:id>/<string:arduino>')
+def createDataSet(id: int, arduino: str):
+    newDS: dataSet = dataSet(id, datetime.now().strftime("%Y-%m-%d"), datetime.now().strftime("%H-%M"), 1, arduino)
     newDS.uploadDataSet()
 
-    return 'transmitted' + str(id)
+    return 'transmitted'
 
 """             Errorhandler             """
 

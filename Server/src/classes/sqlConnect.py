@@ -26,7 +26,7 @@ class sqlConnect:
     def __init__(self):
         self.dbName = 'Datebase_python.db'
   
-    def auslesen(id):
+    def auslesen(self, id):
     
         #Erster Teil nach Datum sotieren
         sqliteCon = sqlite3.connect(self.dbName)
@@ -73,13 +73,15 @@ class sqlConnect:
 
 
 
-    def insert(newDS: dataSet):
+    def insert(self, newDS: dataSet):
 
-        sqliteCon = sqlite3.connect('Datebase_python.db')
+        sqliteCon = sqlite3.connect(self.dbName)
         cursor = sqliteCon.cursor()
 
-        query_insert_into = """INSERT INTO Protokoll (id, Zeit, Datum, Status, arduino) Values ({id},'{z}','{d}',{s},'{ar}')""".format(id = newDS.chickenID,z= newDS.time, d= newDS.date,s= newDS.status, a= newDS.arduino)
-                
-        count = cursor.execute(query_insert_into)
+
+        query_insert_into = """INSERT INTO Protokoll (id, Zeit, Datum, Status, arduino) VALUES ({id},'{z}','{d}',{s},'{ar}')""".format(id = str(newDS.chickenID),z= newDS.time, d= newDS.date,s= str(newDS.status), ar= newDS.arduino)
+
+        cursor.execute(query_insert_into)
+
         sqliteCon.commit()
-        cursor.close 
+        cursor.close
