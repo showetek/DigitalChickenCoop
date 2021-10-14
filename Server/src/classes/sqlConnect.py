@@ -25,8 +25,25 @@ class dataSet:
 class sqlConnect:
     def __init__(self):
         self.dbName = 'Datebase_python.db'
-  
-    def auslesen(self, id):
+
+    def catchAllElemets(self):
+        elements = list()
+        sqliteCon = sqlite3.connect(self.dbName)
+        cursor = sqliteCon.cursor()
+        query_select_all = "SELECT * FROM Protokoll"
+        cursor.execute(query_select_all)
+        tablerows = cursor.fetchone()
+
+        cursor.close()
+        sqliteCon.close()
+
+        for row in tablerows:
+            elements.append(row[0])
+
+        return elements
+
+
+    def idAuslesen(self, id):
         results = list()
 
         #Erster Teil nach Datum sotieren
