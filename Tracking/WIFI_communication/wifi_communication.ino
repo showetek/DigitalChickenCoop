@@ -3,7 +3,6 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266mDNS.h>
-#include <ESP8266HTTPClient.h>
 
 //Define
 #ifndef STASSID
@@ -17,53 +16,39 @@ const char* password = STAPSK;
 const char* host = "192.168.3.1";
 const uint16_t port = 5000;
 
-//X509List cert(cert_DigiCert_High_Assurance_EV_Root_CA);
-
 void post(String sensor, String chick_id, String arduino_id){
   WiFiClient client;
-  Serial.print("Connecting to ");
-  Serial.println(host);
-
-  //Serial.printf("Using certificate: %s\n", cert_DigiCert_High_Assurance_EV_Root_CA);
-  //client.setTrustAnchors(&cert);
-
+  String line;
+  Serial.println("Connecting to server: " + String(host));
+  
+  // Connecting with the Server
   if (!client.connect(host,port)) {
     Serial.println("Connection failed");
     return;
   }
-  // http://192.168.3.1:5000/sensor/123456/A
-  String url = "/sensor/123456/A";
-  Serial.print("Requesting URL: ");
-  Serial.println(url);
 
+  Serial.println("Sending: " + sensor + chick_id + arduino_id);
+
+  // Opening URL to send data
+  String url = "/" + sensor + "/" + chick_id + "/" + arduino_id;
   client.print(String("GET ") + url + " HTTP/1.1\r\n" +
                "Host: " + host + "\r\n" +
                "Connection: close\r\n\r\n");
 
-  Serial.println("Request sent");
-  while (client.connected()) {
-    String line = client.readStringUntil('\n');
-    if (line == "\r") {
-      Serial.println("Headers received");
-      break;
-    }
+  // TODO auslesen der rückgabe um zu bestätigen dass senden erfolgreich war
+  Serial.println("Respons:");
+  while (client.connected()){
+    line = client.readStringUntil('\r');
+    Serial.print(line);
   }
-  String line = client.readStringUntil('\n');
-  if (line.startsWith("{\"state\":\"success\"")) {
-    Serial.println("esp8266/Arduino CI successful!");
-  } else {
-    Serial.println("esp8266/Arduino CI has failed");
-  }
-  Serial.println("Reply was:");
-  Serial.println("==========");
-  Serial.println(line);
-  Serial.println("==========");
-  Serial.println("Closing connection");
+
+  client.stop();
+  Serial.println("\nDisconnected");
 }
 
 void connect_to_wifi() {
   WiFi.begin(ssid, password); //WIFI Verbinden
-  Serial.println("");
+  Serial.println("Connecting to WIFI ");
 
   //Auf Verbindung warten
   while (WiFi.status() != WL_CONNECTED) {
@@ -84,12 +69,12 @@ void connect_to_wifi() {
 //Setup
 void setup()
 {            
-  Serial.begin(9600);         //Serielle Verbindung mit Monitor
+  Serial.begin(9600);
   connect_to_wifi();
-  String sensor = "sensor";
-  String chick_id = "123456";
-  String arduino_id = "A";
-  post(sensor, chick_id, arduino_id);
+  String command = "sensor";          // sort of action, for sending data always sensor
+  String chick_id = "123456";         // chicken_id registered by the RFID chips
+  String arduino_id = "A";            // id of this arduino
+  post(command, chick_id, arduino_id); // data is getting send
 }
 
 //Mainloop des Hauptprogrammes
