@@ -30,17 +30,17 @@ class sqlConnect:
         elements = list()
         sqliteCon = sqlite3.connect(self.dbName)
         cursor = sqliteCon.cursor()
-        query_select_all = "SELECT * FROM Protokoll"
+        query_select_all = "SELECT id FROM Protokoll"
         cursor.execute(query_select_all)
-        tablerows = cursor.fetchone()
+        ids = cursor.fetchall()
 
         cursor.close()
         sqliteCon.close()
 
-        for row in tablerows:
-            elements.append(row[0])
+       #for row in tablerows:
+        #  elements.append(tablerows[0])
 
-        return elements
+        return ids
 
 
     def idAuslesen(self, id):

@@ -51,8 +51,9 @@ class chickens():
     def __init__(self):
         self = self
 
-    def loadAllChicks(self):
-        results = sC.catchAllElemets()
+    def loadAllChicks(self) -> list():
+        results: list() = sC().catchAllElemets()
+        #Muss noch doppelte ids aussortieren!
         ids = sorted(results)
 
         return ids
@@ -61,9 +62,23 @@ class chickens():
         ids = self.loadAllChicks()
         inside = 0
 
-        #for chicken in ids:
+        for id in ids:
+            curChicken = chicken(id[0])
 
-            #sC.idAuslesen()
+            status = curChicken.checkStatus()[1]
+
+            if status == 'A':
+                inside += 1
+
+        return inside, len(ids)
+
+
+
+
+
+
+
+
 
 
 

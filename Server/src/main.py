@@ -5,6 +5,7 @@ from datetime import datetime
 # class import
 from classes.sqlConnect import dataSet
 from chicken import chicken as c
+from chicken import chickens
 from classes.device import device, deviceManager
 
 # Create basic app
@@ -96,6 +97,13 @@ def show_chicken_info(id: int):
 
     return status[0]
 
+@app.route('/checkAll/')
+def checkAllChicks():
+    results = chickens().checkChicks()
+    message = str(results[0]) + ' von ' + str(results[1]) + ' sind im Stall (Ort A).'
+
+
+    return message
 
 
 @app.route('/sensor/<int:id>/<string:arduino>')
