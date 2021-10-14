@@ -24,6 +24,12 @@ dM = deviceManager()
 #     else:
 #         return redirect(url_for('login'), 302)
 
+status = {
+    'food': 'fedded',
+    'door': 'closed'
+}
+
+
 """             ROUTING             """
 
 
@@ -49,7 +55,7 @@ def apiIndex():
 @app.route('/api/door', methods=['POST'])
 def door():
     if request.method == 'POST':
-        pass
+        status["door"] = request.form['status']
     else:
         abort(405)
 
@@ -57,7 +63,7 @@ def door():
 @app.route('/api/food', methods=['POST'])
 def food():
     if request.method == 'POST':
-        pass
+        status["food"] = request.form['status']
     else:
         abort(405)
 
