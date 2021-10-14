@@ -86,10 +86,9 @@ def login():
 @app.route('/chickenStatus/<int:id>')
 def show_chicken_info(id: int):
     chicken: c = c(id)
-    chicken.checkStatus()
+    status = chicken.checkStatus()
 
-
-    return 'You choose chicken number: {0}'.format(escape(id))
+    return status[0]
 
 
 

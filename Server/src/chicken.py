@@ -1,4 +1,5 @@
 from classes.sqlConnect import sqlConnect as sC
+from classes.sqlConnect import dataSet
 
 class chicken():
     """ Hier ist Platz für Kommentare """
@@ -8,10 +9,40 @@ class chicken():
 
     def checkStatus(self):
         db = sC()
+
         results = db.auslesen(self.chickenID)
-        print('datensätze gefunden: ' + str(len(results)))
+
+        try:
+
+            print('datensätze gefunden: ' + str(len(results)))
+
+            if len(results) < 2 and len(results) != 0:
+                message = str(results[0].chickenID) + ' ist am Ort ' + results[0].arduino + '.'
+
+                print(message)
+
+                return message, results[0].arduino
 
 
+            if results[0].arduino != results[1].arduino:
+                message = str(results[0].chickenID) + ' ist zum Ort ' + results[0].arduino + ' gewechselt.'
+
+                print(message)
+
+                return message, results[0].arduino
+            else:
+                message = str(results[0].chickenID) + ' ist am Ort ' + results[0].arduino + '.'
+
+                print(message)
+
+                return message, results[0].arduino
+
+        except:
+            message = 'Angeforderte ID nicht gefunden.'
+
+            print(message)
+
+            return message, 'null'
 
 
 
