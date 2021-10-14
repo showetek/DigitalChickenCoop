@@ -18,10 +18,10 @@ const char* password = STAPSK;
 //Webserver erstellen
 ESP8266WebServer server(80);
 
-void send_door_status(String status){
+void send_food_status(String status){
     HTTPClient http;    //Declare object of class HTTPClient
  
-    http.begin("http://192.168.3.1:5000/api/door");      //Specify request destination
+    http.begin("http://192.168.3.1:5000/api/food");      //Specify request destination
     http.addHeader("Content-Type", "application/json");  //Specify content-type header
  
     int httpCode = http.POST("{\"status\":\""+ status +"\"}");   //Send the request
@@ -71,12 +71,12 @@ void setup()
   }
 
   
-  server.on("/door/", handleForm); //Post-request verarbeiten
+  server.on("/food/", handleForm); //Post-request verarbeiten
   
   
   server.begin();
-  //als door einloggen
-    login("door");
+  //als food einloggen
+    login("food");
 }
 
 //Mainloop des Hauptprogrammes
@@ -95,24 +95,20 @@ void handleForm() {
       message =  server.arg(i)+"";
     }
 
-    if message == "open"{
-        openDoor();
-        send_door_status("open");
-    }
-
-    if message == "close"{
-        closeDoor();
-        send_door_status("closed");
+    if message == "feed"{
+        openFood();
+        closeFood();
+        send_food_status("feeded");
     }
 
     server.send(200, "text/plain", "OK");
   }
 
 //HIer motor ansteuern
-void openDoor(){
+void openFood(){
 
 }
 
-void closeDoor(){
+void closeFood(){
 
 }
