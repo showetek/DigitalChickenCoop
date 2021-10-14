@@ -10,9 +10,10 @@ class chicken():
     def checkStatus(self):
         db = sC()
 
-        results = db.auslesen(self.chickenID)
-
         try:
+            results = db.idAuslesen(self.chickenID)
+
+
 
             print('datensätze gefunden: ' + str(len(results)))
 
@@ -46,15 +47,27 @@ class chicken():
 
 
 
-    def go_out(self):
-        self.location = 1
+class chickens():
+    def __init__(self):
+        self = self
 
-    def go_in(self):
-        self.location = 0
-    
-    def get_location(self):
-        return self.location
+    def loadAllChicks(self):
+        results = sC.catchAllElemets()
+        ids = sorted(results)
 
-    @property
-    def _location(self):
-        return self.location
+        return ids
+
+    def checkChicks(self):
+        ids = self.loadAllChicks()
+        inside = 0
+
+        #for chicken in ids:
+
+            #sC.idAuslesen()
+
+
+
+
+
+
+
