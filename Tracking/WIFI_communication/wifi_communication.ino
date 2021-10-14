@@ -7,36 +7,61 @@
 
 //Define
 #ifndef STASSID
-#define STASSID "MDG_Stream"
-#define STAPSK  "#Buermende21"
+#define STASSID "Chicken-Intranet"
+#define STAPSK  "1234567890"
 #endif
 
 //Const Var
 const char* ssid     = STASSID;
 const char* password = STAPSK;
-const char* server_adresse = "http://192.168.1.27:5000";
+const char* host = "192.168.3.1";
+const uint16_t port = 5000;
 
-//Var
+//X509List cert(cert_DigiCert_High_Assurance_EV_Root_CA);
 
-void post(String action, String chick_id, String arduino_id){
-    HTTPClient http;    //Declare object of class HTTPClient
- 
-    //http.begin(server_adresse + "/" + action + "/" + chick_id + "/" + arduino_id);      //Specify request destination
-  /*  http.addHeader("Content-Type", "text/plain");  //Specify content-type header
- 
-    int httpCode = http.POST("co2_in="+ key1 + ",tmp_in=" + key2 +",");   //Send the request
-    String payload = http.getString();                  //Get the response payload
- 
-    Serial.println(httpCode);   //Print HTTP return code
-    Serial.println(payload);    //Print request response payload
- */
-    http.end();  //Close connection
+void post(String sensor, String chick_id, String arduino_id){
+  WiFiClient client;
+  Serial.print("Connecting to ");
+  Serial.println(host);
+
+  //Serial.printf("Using certificate: %s\n", cert_DigiCert_High_Assurance_EV_Root_CA);
+  //client.setTrustAnchors(&cert);
+
+  if (!client.connect(host,port)) {
+    Serial.println("Connection failed");
+    return;
+  }
+  // http://192.168.3.1:5000/sensor/123456/A
+  String url = "/sensor/123456/A";
+  Serial.print("Requesting URL: ");
+  Serial.println(url);
+
+  client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+               "Host: " + host + "\r\n" +
+               "Connection: close\r\n\r\n");
+
+  Serial.println("Request sent");
+  while (client.connected()) {
+    String line = client.readStringUntil('\n');
+    if (line == "\r") {
+      Serial.println("Headers received");
+      break;
+    }
+  }
+  String line = client.readStringUntil('\n');
+  if (line.startsWith("{\"state\":\"success\"")) {
+    Serial.println("esp8266/Arduino CI successful!");
+  } else {
+    Serial.println("esp8266/Arduino CI has failed");
+  }
+  Serial.println("Reply was:");
+  Serial.println("==========");
+  Serial.println(line);
+  Serial.println("==========");
+  Serial.println("Closing connection");
 }
 
-//Setup
-void setup()
-{            
-  Serial.begin(9600);         //Serielle Verbindung mit Monitor 
+void connect_to_wifi() {
   WiFi.begin(ssid, password); //WIFI Verbinden
   Serial.println("");
 
@@ -56,8 +81,16 @@ void setup()
   }
 }
 
-//Mainloop des Hauptprogrammes
-void loop()
-{  
-  //post("Test", "Test", "Test");
+//Setup
+void setup()
+{            
+  Serial.begin(9600);         //Serielle Verbindung mit Monitor
+  connect_to_wifi();
+  String sensor = "sensor";
+  String chick_id = "123456";
+  String arduino_id = "A";
+  post(sensor, chick_id, arduino_id);
 }
+
+//Mainloop des Hauptprogrammes
+void loop() {}
