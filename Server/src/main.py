@@ -47,7 +47,6 @@ def apiIndex():
         "code": "200",
         "message": "Hühnerstall-API",
         "login": url_for('login'),
-        "sensor_endpoint": url_for('sensor'),
         "door_endpoint": url_for('door'),
         "food_endpoint": url_for('food')
     }), 200
