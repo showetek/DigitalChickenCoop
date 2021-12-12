@@ -25,8 +25,9 @@ dM = deviceManager()
 #     else:
 #         return redirect(url_for('login'), 302)
 
+
 status = {
-    'food': 'fedded',
+    'food': 'fedded', # fedded -> fed?
     'door': 'closed'
 }
 
@@ -45,7 +46,7 @@ def apiIndex():
     return jsonify({
         "status": "OK",
         "code": "200",
-        "message": "Hühnerstall-API",
+        "message": "Huehnerstall-API",
         "login": url_for('login'),
         "door_endpoint": url_for('door'),
         "food_endpoint": url_for('food')
@@ -78,9 +79,9 @@ def login():
         else:
             if dM.is_inside(tmp_device):
                 return jsonify({
-                    "status": "succes",
+                    "status": "success",
                     "code": "200",
-                    "message": "Device allready registered",
+                    "message": "Device already registered",
                 }), 200
             else:
                 dM.add_device(tmp_device)
