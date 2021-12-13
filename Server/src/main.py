@@ -134,7 +134,7 @@ def method_not_allowed(error):
         "message": "Methode not allowed",
     }), 405
 
-
+#wäre 'localhost' hier nicht besser?'
 # ensure interpreter assigns __name__ variable
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

@@ -54,7 +54,15 @@ class chickens():
     def loadAllChicks(self) -> list():
         results: list() = sC().catchAllElemets()
         #Muss noch doppelte ids aussortieren!
-        ids = sorted(results)
+        results = sorted(results)
+        ids: list() = []
+
+        for id in results:
+            if id not in ids:
+                ids.append(id)
+
+
+
 
         return ids
 

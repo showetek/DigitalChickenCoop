@@ -24,7 +24,8 @@ class dataSet:
 
 class sqlConnect:
     def __init__(self):
-        self.dbName = 'Datebase_python.db'
+        #liegt im Ordner src
+        self.dbName = 'protokoll.db'
 
     def catchAllElemets(self):
         elements = list()
