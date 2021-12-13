@@ -2,7 +2,8 @@
 
 # **Projektbeschreibung**
 
-Source code zur Digitalisierung des Hühnerstalls. Dieses Repository umfasst das komplette Software-backend des Projektes. Die Projektstruktur besteht dabei aus mehreren einzelen IoT boards, welche jeweils eigene Aufgaben übernehmen, wie unteranderem ``Registrierung der RFID-Chips``, ``Ansteuerung der Tür`` und ``Futterausgabe``.Dabei sind diese alle zu einem zentralen Server über den Raspberry Pi verbunden, welcher die Kommunikation zwischen den einzelnen IoT boards unter bereitstellung eines eigenen Wlan-Netzes übernimmt sowie die Benutzerschnittstelle bereitstellt.
+Source code zur Digitalisierung des Hühnerstalls. Dieses Repository umfasst das komplette Software-backend des Projektes. Die Projektstruktur besteht dabei aus mehreren einzelnen IoT-Boards, welche jeweils eigene Aufgaben übernehmen, wie unter anderem ``Registrierung der RFID-Chips``, ``Ansteuerung der Tür`` und ``Futterausgabe``. 
+Dabei sind diese alle zu einem zentralen Server über den Raspberry Pi verbunden. Dieser übernimmt die Kommunikation zwischen den einzelnen IoT-Boards unter Bereitstellung eines eigenen Wlan-Netzes, sowie die Bereitstellung einer Benutzerschnittstelle.
 
 Der Programmierstil folgt dabei dem OOP (Object-oriented programming) Prinzip.
 
@@ -16,7 +17,7 @@ Der Programmierstil folgt dabei dem OOP (Object-oriented programming) Prinzip.
 
 ## **Aktuell entwickelt von**:
 
-*Die Software des Projektes wird zurzeit in zwei primären Teams entwickelt:*
+*Die Software des Projektes wird zurzeit in zwei Teams entwickelt:*
 
 ### Server
 
@@ -81,6 +82,6 @@ python3 -m pip install -U -r requirements.txt
 python3 main.py
 ```
 
-Note: Dies ist nur die installation der Serversoftware, zusätzlich muss der Raspberry Pi für das Wlan-Netz konfiguriet sein und die einzelnen Programme der IoT boards müsssen entsprechnde installiert sein.
+Note: Dies ist nur die Installation der Serversoftware, zusätzlich muss der Raspberry Pi für das Wlan-Netz konfiguriert sein und die einzelnen Programme der IoT-Boards müssen entsprechend installiert sein.
 
 --tags arduino; automation; raspberry-pi-3; chicken-coop;

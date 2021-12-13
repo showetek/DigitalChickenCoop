@@ -89,7 +89,7 @@ def login():
     else:
         abort(405)
 
-
+#Anfrage Webserver, wo sich spez. Huhn befindet
 @app.route('/chickenStatus/<int:id>')
 def show_chicken_info(id: int):
     chicken: c = c(id)
@@ -97,6 +97,7 @@ def show_chicken_info(id: int):
 
     return status[0]
 
+#Anfrage, ob alle Hühner im Stall sind
 @app.route('/checkAll/')
 def checkAllChicks():
     results = chickens().checkChicks()
@@ -105,7 +106,7 @@ def checkAllChicks():
 
     return message
 
-
+#Anfrage zur Aufnahme einer Sensoraktivität in DB
 @app.route('/sensor/<int:id>/<string:arduino>')
 def createDataSet(id: int, arduino: str):
     newDS: dataSet = dataSet(id, datetime.now().strftime("%Y-%m-%d"), datetime.now().strftime("%H-%M"), 1, arduino)
@@ -134,7 +135,7 @@ def method_not_allowed(error):
         "message": "Methode not allowed",
     }), 405
 
-#wäre 'localhost' hier nicht besser?'
+
 # ensure interpreter assigns __name__ variable
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

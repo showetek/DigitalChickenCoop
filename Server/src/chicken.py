@@ -1,12 +1,15 @@
 from classes.sqlConnect import sqlConnect as sC
 from classes.sqlConnect import dataSet
 
+
+#Klasse verwaltet Hühner
 class chicken():
     """ Hier ist Platz für Kommentare """
 
     def __init__(self, chickenID) -> None:
         self.chickenID = chickenID
 
+    #Überprüft Aufenthaltsstatus eines spez. Huhns
     def checkStatus(self):
         db = sC()
 
@@ -15,7 +18,7 @@ class chicken():
 
 
 
-            print('datensätze gefunden: ' + str(len(results)))
+            print('Datensätze gefunden: ' + str(len(results)))
 
             if len(results) < 2 and len(results) != 0:
                 message = str(results[0].chickenID) + ' ist am Ort ' + results[0].arduino + '.'
@@ -46,7 +49,7 @@ class chicken():
             return message, 'null'
 
 
-
+#Überprüft Status aller Hühner -> Entscheidung der Türschließung bis best. Uhrzeit
 class chickens():
     def __init__(self):
         self = self
