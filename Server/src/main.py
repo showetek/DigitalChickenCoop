@@ -7,6 +7,7 @@ from classes.sqlConnect import dataSet
 from chicken import chicken as c
 from chicken import chickens
 from classes.device import device, deviceManager
+from classes.timeChecker import timeChecker as tC
 
 # Create basic app
 app = Flask(__name__)
@@ -139,4 +140,7 @@ def method_not_allowed(error):
 
 # ensure interpreter assigns __name__ variable
 if __name__ == '__main__':
+    timeCheck = tC()
+    timeCheck.checkTime()
+    print('start?')
     app.run(host='0.0.0.0', port=5000)
