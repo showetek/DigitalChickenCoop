@@ -18,15 +18,20 @@ const char* password = STAPSK;
 const char* host = "192.168.3.18";
 const uint16_t port = 5000;
 
+String IpAddress2String(const IPAddress& ipAddress)
+{
+  return String(ipAddress[0]) + String(".") +\
+  String(ipAddress[1]) + String(".") +\
+  String(ipAddress[2]) + String(".") +\
+  String(ipAddress[3])  ; 
+}
+
 void post() {
   WiFiClient client;
   HTTPClient http;
-  //DynamicJsonDocument doc(1024);
 
-  String input = "{\"ip\": \"1.1.1\", \"id\": \"Dooe\"}";
-  //deserializeJson(doc, input);
-  //JsonObject obj = doc.as<JsonObject>();
-  
+  String input = "{\"ip\": \"" + IpAddress2String(WiFi.localIP()) + "\", \"id\": \"Door\"}";
+
   http.begin(client, "http://" + String(host) + ":" + port + "/api/login");
   http.addHeader("Content-Type", "plain/text");
   int httpCode = http.POST(input);
