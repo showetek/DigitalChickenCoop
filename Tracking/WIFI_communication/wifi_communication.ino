@@ -31,7 +31,7 @@ void post(String sensor, String chick_id, String arduino_id){
 
   // Opening URL to send data
   String url = "/" + sensor + "/" + chick_id + "/" + arduino_id;
-  client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: close\r\n\r\n");
+  client.print(String("GET ") + url + " HTTP/1.1\r\nHost: " + host + "\r\nConnection: close\r\n\r\n");
 
   // TODO auslesen der rückgabe um zu bestätigen dass senden erfolgreich war
   Serial.println("Respons:");

@@ -1,6 +1,7 @@
 //Lib
 #include <SoftwareSerial.h>
 #include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
 #include <WiFiClient.h>
 #include <ESP8266mDNS.h>
 
@@ -16,63 +17,18 @@ const char* password = STAPSK;
 const char* host = "192.168.3.1";
 const uint16_t port = 5000;
 
-//Webserver erstellen
-ESP8266WebServer server(80);
-
-void send_door_status(String status){
-    HTTPClient http;    //Declare object of class HTTPClient
- 
-    http.begin("http://192.168.3.1:5000/api/door");      //Specify request destination
-    http.addHeader("Content-Type", "application/json");  //Specify content-type header
- 
-    int httpCode = http.POST("{\"status\":\""+ status +"\"}");   //Send the request
-    String payload = http.getString();                  //Get the response payload
- 
-    Serial.println(httpCode);   //Print HTTP return code
-    Serial.println(payload);    //Print request response payload
- 
-    http.end();  //Close connection
-}
-
-void login(String id){
-  WifiClient client;
-  String line;
-  Serial.println("Connecting to server: " + String(host));
-  
-  // Connecting with the Server
-  if (!client.connect(host,port)) {
-    Serial.println("Connection failed");
-    return;
-  }
-
-  Serial.println("Logging in with ID=" + id);
-
-  // Open URL to send Data
-  String url = "/api/login/";
-  int adcvalue=0;
-  String postData = "adcreading=" + String(adcvalue);
-  String address = host + url;
+void post() {
+  WiFiClient client;
   HTTPClient http;
-  http.begin(adress);
-  http.addHeader()
-
-  auto httpCode = http.POST(postData);
+  http.begin(client, "http://" + String(host) + "/api/login");
+  http.addHeader("Content-Type", "text/plain");
+  int httpCode = http.POST("Message from ESP8266");
   String payload = http.getString();
+
+  Serial.println(httpCode);
+  Serial.println(payload);
   http.end();
-  client.stop();
-  Serial.println("\nDisconnected");
- 
- /*
-    begin(http, "http://192.168.3.1:5000/api/login");      //Specify request destination
-    http.addHeader("Content-Type", "application/json");  //Specify content-type header
- 
-    //int httpCode = http.POST("{\"ip\":\""+ WiFi.localIP() +"\",\"id\":\""+id+"\"}");   //Send the request
-    String payload = http.getString();                  //Get the response payload
- 
-    //Serial.println(httpCode);   //Print HTTP return code
-    Serial.println(payload);    //Print request response payload
- 
-    http.end();  //Close connection*/
+  
 }
 
 void connect_to_wifi() {
@@ -108,41 +64,9 @@ void closeDoor(){
 void setup()
 {       
   Serial.begin(9600);
-  connect_to_wifi();  
-  server.on("/door/", handleForm); //Post-request verarbeiten
-  
-  
-  server.begin();
-  //als door einloggen
-    login("door");
+  connect_to_wifi();
+  post();
 }
 
 //Mainloop des Hauptprogrammes
-void loop()
-{
-  server.handleClient();
-}
-
-//Post-request verarbeiten
-void handleForm() {
-  if (server.method() != HTTP_POST) {
-    server.send(405, "text/plain", "Method Not Allowed");
-  } else {
-    String message = "";
-    for (uint8_t i = 0; i < server.args(); i++) {
-      message =  server.arg(i)+"";
-    }
-
-    if (message == "open") {
-        openDoor();
-        send_door_status("open");
-    }
-
-    if (message == "close") {
-        closeDoor();
-        send_door_status("closed");
-    }
-
-    server.send(200, "text/plain", "OK");
-  }
-}
+void loop(){}
