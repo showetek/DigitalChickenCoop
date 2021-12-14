@@ -4,6 +4,7 @@
 #include <ESP8266HTTPClient.h>
 #include <WiFiClient.h>
 #include <ESP8266mDNS.h>
+#include <ArduinoJson.h>
 
 //Define
 #ifndef STASSID
@@ -14,15 +15,21 @@
 //Const Var
 const char* ssid     = STASSID;
 const char* password = STAPSK;
-const char* host = "192.168.3.1";
+const char* host = "192.168.3.18";
 const uint16_t port = 5000;
 
 void post() {
   WiFiClient client;
   HTTPClient http;
-  http.begin(client, "http://" + String(host) + "/api/login");
-  http.addHeader("Content-Type", "text/plain");
-  int httpCode = http.POST("Message from ESP8266");
+  //DynamicJsonDocument doc(1024);
+
+  String input = "{\"ip\": \"1.1.1\", \"id\": \"Dooe\"}";
+  //deserializeJson(doc, input);
+  //JsonObject obj = doc.as<JsonObject>();
+  
+  http.begin(client, "http://" + String(host) + ":" + port + "/api/login");
+  http.addHeader("Content-Type", "plain/text");
+  int httpCode = http.POST(input);
   String payload = http.getString();
 
   Serial.println(httpCode);
