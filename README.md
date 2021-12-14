@@ -39,6 +39,7 @@ Der Programmierstil folgt dabei dem OOP (Object-oriented programming) Prinzip.
 
 * [Flask web application framework](https://github.com/pallets/flask)
 * [serial](https://pypi.org/project/serial/)
+* [pytz](https://github.com/stub42/pytz)
 
 + Weitere Informationen finden sich [hier](https://github.com/showetek/DigitalChickenCoop/network/dependencies)
 

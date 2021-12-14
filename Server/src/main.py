@@ -86,6 +86,7 @@ def login():
             else:
                 dM.add_device(tmp_device)
                 return tmp_device.to_json(), 200
+        del tmp_device #wird druch return nicht ereicht, durch try-catch-finally block ersetzen
     else:
         abort(405)
 
