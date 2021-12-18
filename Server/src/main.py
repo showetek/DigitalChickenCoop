@@ -2,14 +2,22 @@
 from flask import Flask, redirect, url_for, jsonify, abort, request
 from markupsafe import escape
 from datetime import datetime
+import json
 # class import
 from classes.sqlConnect import dataSet
+from classes.logger import logger
 from chicken import chicken as c
 from chicken import chickens
 from classes.device import device, deviceManager
 
 # Create basic app
 app = Flask(__name__)
+
+# Logging
+log = logger('test.txt', loglevel=0)
+
+log.critical('test')
+log.error('test2')
 
 # Create deviceManger for list of connected devices
 dM = deviceManager()
@@ -72,7 +80,12 @@ def food():
 @app.route('/api/login', methods=['POST'])
 def login():
     if request.method == 'POST':
-        tmp_device = device(ip=request.form['ip'], id=request.form['id'])
+        print(request.get_data(as_text=False))
+        x = json.loads(json.dumps(request.get_data(as_text=True)))
+        print(json.loads(request.get_data(as_text=True).replace("'","\""))['ip'])
+        #print(json.loads(f'{request.get_data(as_text=True)}'))
+        #tmp_device = device(ip=request.form['ip'], id=request.form['id'])
+        tmp_device = device(ip='123', id='door')
         if len(dM.devices) == 0:
             dM.add_device(tmp_device)
             return tmp_device.to_json(), 200
