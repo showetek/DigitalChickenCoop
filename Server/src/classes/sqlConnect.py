@@ -57,10 +57,10 @@ class sqlConnect:
         tablerows = cursor.fetchone()
         #Hier fetchone um die neuste Zeile, wo dies gillt das auszulesen
     
-        print("Number of all rows: ", len(tablerows))
-        print("All rows in the table mytable: ")
+        #print("Number of all rows: ", len(tablerows))
+        #print("All rows in the table mytable: ")
       
-        print("Datum: ", tablerows[2])
+        #print("Datum: ", tablerows[2])
         datum = tablerows[2]
         cursor.close()
         sqliteCon.close()
@@ -77,12 +77,12 @@ class sqlConnect:
         for row in tablerows:
             current_ds = dataSet(row[0] , row[1] , row[2] , row[3], row[4])
             results.append(current_ds)
-            print("id: ", row[0])
-            print("Zeit: ", row[1])
-            print("Datum: ", row[2])
-            print("Status: ", row[3])
-            print("Arduino: ", row[4])
-            print("------\n")
+            #print("id: ", row[0])
+            #print("Zeit: ", row[1])
+            #print("Datum: ", row[2])
+            #print("Status: ", row[3])
+            #print("Arduino: ", row[4])
+            #print("------\n")
 
 
         cursor.close()
