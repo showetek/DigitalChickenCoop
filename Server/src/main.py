@@ -1,15 +1,14 @@
 # lib import
 from flask import Flask, redirect, url_for, jsonify, abort, request
-from markupsafe import escape
 from datetime import datetime
 import json
 # class import
 from classes.sqlConnect import dataSet
 from classes.logger import logger
-from chicken import chicken as c
-from chicken import chickens
+from Server.src.chicken import chicken as c
+from Server.src.chicken import chickens
 from classes.device import device, deviceManager
-from classes.timeChecker import timeChecker as tC
+from Server.src.timeChecker import timeChecker as tC
 
 # Create basic app
 app = Flask(__name__)
@@ -118,6 +117,9 @@ def checkAllChicks():
     results = chickens().checkChicks()
     message = str(results[0]) + ' von ' + str(results[1]) + ' sind im Stall (Ort A).'
 
+    if chickens().chickensInside() == True:
+        message = message + ' Funktion bestätigt'
+
 
     return message
 
@@ -153,7 +155,7 @@ def method_not_allowed(error):
 
 # ensure interpreter assigns __name__ variable
 if __name__ == '__main__':
-    timeCheck = tC()
+    timeCheck = tC(False)
     timeCheck.checkTime()
     print('start?')
     app.run(host='0.0.0.0', port=5000)

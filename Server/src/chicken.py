@@ -18,12 +18,12 @@ class chicken():
 
 
 
-            print('Datensätze gefunden: ' + str(len(results)))
+            #print('Datensätze gefunden: ' + str(len(results)))
 
             if len(results) < 2 and len(results) != 0:
                 message = str(results[0].chickenID) + ' ist am Ort ' + results[0].arduino + '.'
 
-                print(message)
+                #print(message)
 
                 return message, results[0].arduino
 
@@ -31,20 +31,20 @@ class chicken():
             if results[0].arduino != results[1].arduino:
                 message = str(results[0].chickenID) + ' ist zum Ort ' + results[0].arduino + ' gewechselt.'
 
-                print(message)
+                #print(message)
 
                 return message, results[0].arduino
             else:
                 message = str(results[0].chickenID) + ' ist am Ort ' + results[0].arduino + '.'
 
-                print(message)
+                #print(message)
 
                 return message, results[0].arduino
 
         except:
             message = 'Angeforderte ID nicht gefunden.'
 
-            print(message)
+            #print(message)
 
             return message, 'null'
 
@@ -82,6 +82,15 @@ class chickens():
                 inside += 1
 
         return inside, len(ids)
+
+    def chickensInside(self):
+        results = self.checkChicks()
+
+        if results[0] == results[1]:
+            return True
+        else:
+            return False
+
 
 
 
