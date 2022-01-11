@@ -5,10 +5,10 @@ import json
 # class import
 from classes.sqlConnect import dataSet
 from classes.logger import logger
-from Server.src.chicken import chicken as c
-from Server.src.chicken import chickens
+from chicken import chicken as c
+from chicken import chickens
 from classes.device import device, deviceManager
-from Server.src.timeChecker import timeChecker as tC
+from timeChecker import timeChecker as tC
 
 # Create basic app
 app = Flask(__name__)
