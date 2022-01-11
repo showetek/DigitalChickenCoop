@@ -80,12 +80,12 @@ def food():
 @app.route('/api/login', methods=['POST'])
 def login():
     if request.method == 'POST':
-        print(request.get_data(as_text=False))
-        x = json.loads(json.dumps(request.get_data(as_text=True)))
-        print(json.loads(request.get_data(as_text=True).replace("'","\""))['ip'])
+        #print(request.get_data(as_text=False))
+        #x = json.loads(json.dumps(request.get_data(as_text=True)))
+        #print(json.loads(request.get_data(as_text=True).replace("'","\""))['ip'])
         #print(json.loads(f'{request.get_data(as_text=True)}'))
         #tmp_device = device(ip=request.form['ip'], id=request.form['id'])
-        tmp_device = device(ip='123', id='door')
+        tmp_device = device(ip=json.loads(request.get_data(as_text=True).replace("'","\""))['ip'], id=json.loads(request.get_data(as_text=True).replace("'","\""))['id'])
         if len(dM.devices) == 0:
             dM.add_device(tmp_device)
             return tmp_device.to_json(), 200

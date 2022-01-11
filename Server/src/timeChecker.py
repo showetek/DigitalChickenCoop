@@ -43,7 +43,7 @@ class timeChecker:
                 print('Achtung:     Hühner fehlen!')
                 print('Erwartet: ' + str(chickens().checkChicks()[1]))
                 print('Gefunden: ' + str(chickens().checkChicks()[0]))
-                print('Tür konnte nicht geöffnet werden')
+                print('Tür konnte nicht geschlossen werden')
         else:
             if self.doorStatus == True:
                 self.doorStatus = False
