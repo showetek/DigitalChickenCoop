@@ -13,7 +13,7 @@
 //Const Var
 const char* ssid     = STASSID;
 const char* password = STAPSK;
-const char* host = "192.168.3.1";
+const char* host = "192.168.1.15";
 const uint16_t port = 5000;
 
 void post(String sensor, String chick_id, String arduino_id){

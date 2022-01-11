@@ -36,10 +36,11 @@ void send_food_status(String status){
 void login(String id){
     HTTPClient http;    //Declare object of class HTTPClient
  
-    http.begin("http://192.168.3.1:5000/api/login");      //Specify request destination
+    HTTPClient.begin(http, "192.168.1.15:5000/api/login");      //Specify request destination
     http.addHeader("Content-Type", "application/json");  //Specify content-type header
  
-    int httpCode = http.POST("{\"ip\":\""+ WiFi.localIP() +"\",\"id\":\""+id+"\"}");   //Send the request
+    //int httpCode = http.POST("{\"ip\":\""+ WiFi.localIP().toString() +"\",\"id\":\""+id+"\"}");   //Send the request
+    int httpCode = http.POST("{\"ip\":\"12345\",\"id\":\""+id+"\"}");   //Send the request
     String payload = http.getString();                  //Get the response payload
  
     Serial.println(httpCode);   //Print HTTP return code
@@ -95,7 +96,7 @@ void handleForm() {
       message =  server.arg(i)+"";
     }
 
-    if message == "feed"{
+    if (message == "feed") {
         openFood();
         closeFood();
         send_food_status("feeded");
@@ -103,7 +104,7 @@ void handleForm() {
 
     server.send(200, "text/plain", "OK");
   }
-
+}
 //HIer motor ansteuern
 void openFood(){
 
